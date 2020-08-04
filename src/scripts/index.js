@@ -3,54 +3,82 @@ import '../styles/main.css';
 import data from '../DATA.json';
 
 console.log('Hello Coders! :)');
+
+// ======================================================
+// ===================== Navigation =====================
+const topnav = document.getElementById("topnav");
+const topnavToggle = topnav.querySelector(".menu-toggle");
+
+function openMobileNavbar() {
+    topnav.classList.add("opened");
+    topnavToggle.setAttribute("aria-label", "Close navigation menu.");
+}
+
+function closeMobileNavbar() {
+    topnav.classList.remove("opened");
+    topnavToggle.setAttribute("aria-label", "Open navigation menu.");
+}
+
+topnavToggle.addEventListener("click", () => {
+    if (topnav.classList.contains("opened")) {
+        closeMobileNavbar();
+    } else {
+        openMobileNavbar();
+    }
+});
+
+const topnavMenu = topnav.querySelector(".nav-menu");
+const topnavLinks = topnav.querySelector(".nav-links");
+
+topnavLinks.addEventListener("click", (clickEvent) => {
+    clickEvent.stopPropagation();
+});
+
+topnavMenu.addEventListener("click", closeMobileNavbar);
+
+// ===================== End Navigation =================
+// ======================================================
+
+
+// ======================================================
+// ===================== List Content ===================
 const restaurantListElement = document.querySelector("restaurant-list");
-
-//var data = require('../DATA.json')
-//console.log(data);
-//const urlPict = JSON.stringify(data.restaurants[0].pictureId);
-// 'use strict';
-// const fs = require('fs');
-// const json_data = require('../DATA.json');
-
-// fs.readFile(json_data, 'utf8', function (err, data) {
-//     try {
-//         data = JSON.parse(data);
-//         console.log(data);
-//         // for (let i in data){
-//         // console.log('Name:',data[i].name)
-//         // }
-//     } catch (e) {
-//         // Catch error in case file doesn't exist or isn't valid JSON
-//     }
-// });
+const footerElement = document.querySelector("footer");
 
 console.log(data.restaurants[0].pictureId);
-restaurantListElement.setAttribute("class", "grid");
+restaurantListElement.setAttribute("class", "grid container");
 restaurantListElement.innerHTML = "";
 data.restaurants.forEach(restaurant => {
     const list = document.createElement("article");
+    list.setAttribute("tabindex", "0");
     list.innerHTML = `
-    <img src=${restaurant.pictureId} alt="Poster">
+    <div class="poster">
+        <img src=${restaurant.pictureId} alt="Poster">
+        <div class="text-block">
+            ${restaurant.city}
+        </div
+    </div>
     <div class="text">
-        <h3>${restaurant.name}</h3></br>
+        <h4>Rating: ${restaurant.rating}</h4>
+        <h3>${restaurant.name}</h3>
         <p>${restaurant.description}</p>
     </div>
     `;
     restaurantListElement.appendChild(list);
-    //restaurantListElement.innerHTML = `<img class="card-img-top art" src=${pictureId} alt="Poster"> ${pictureId}`
 })
 
-// JSON.parse(data.restaurants.forEach(re => {
-//     restaurantListElement.innerText = restaurants.pictureId;
-//     //restaurantListElement.innerHTML = `<img class="card-img-top art" src=${pictureId} alt="Poster"> ${pictureId}`
-// }))
+// =================== End List Content =================
+// ======================================================
 
-// restaurantListElement.innerHTML = `<img class="card-img-top art" src=${urlPict} alt="Poster"> ${JSON.stringify(data.restaurants.pictureId)}`
-// JSON.stringify(data.restaurants.forEach.pictureId);
 
-// fetch("../styles/DATA.json")
-//     .then(res => res.json())
-//     .then(data => {
-//         console.log(data);
-//         //restaurantListElement.innerText = JSON.stringify(data);
-//     })
+// ======================================================
+// ======================= Footer =======================
+footerElement.innerHTML = "";
+const footer = document.createElement("div");
+footer.setAttribute("class", "footer");
+footer.innerHTML = `Copyright &copy; 2020 -
+ <a href="https://www.linkedin.com/in/m-imam-nur-hidayat-26b147159/">Dayat</a>`;
+footerElement.appendChild(footer);
+
+// ===================== End Footer =====================
+// ======================================================
